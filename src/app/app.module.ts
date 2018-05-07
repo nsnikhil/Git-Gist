@@ -16,6 +16,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import {MatSelectModule} from '@angular/material/select';
+import {MatRippleModule} from '@angular/material';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import {AppComponent} from './app.component';
 import {FilterDialogComponent, GridListComponentComponent} from './grid-list-component/grid-list-component.component';
@@ -50,7 +52,9 @@ import {NetworkApiService} from './network/network-api.service';
     MatButtonModule,
     MatDividerModule,
     MatListModule,
-    MatSelectModule
+    MatSelectModule,
+    MatRippleModule,
+    MatTabsModule
   ],
   providers: [
     NetworkApiService,

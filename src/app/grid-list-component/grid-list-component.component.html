@@ -2,13 +2,21 @@
   <span>Git Gist</span>
   <span class="fill-remaining-space"></span>
 
-  <span>
-    <button mat-button [matMenuTriggerFor]="menu">Sort By</button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="sortArray()">Last Updated</button>
-      <button mat-menu-item (click)="openDialog()">Filter</button>
-    </mat-menu>
-  </span>
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item (click)="sortArray()">Last Updated</button>
+    <button mat-menu-item (click)="openDialog()">Filter</button>
+  </mat-menu>
+
+  <button mat-icon-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+  <a aria-label="GitHub Repository"
+     href="https://github.com/nsnikhil/Git-Gist">
+    <span matRipple><img alt="github.com/nsnikhil" src="../../assets/images/GitHub-Mark-Light-32px.png"></span>
+  </a>
+
+
 </mat-toolbar>
 
 
