@@ -12,6 +12,7 @@ export class GridListComponentComponent implements OnInit {
   gistList: GistModel[];
   perPageCount = 12;
   currentPage = 1;
+  noOfColumns = 5;
 
   hideNoDescription = false;
   name: String;
@@ -53,12 +54,14 @@ export class GridListComponentComponent implements OnInit {
       width: '400px',
       data: {
         name: this.name, hideNoDescription: this.hideNoDescription,
-        perPageCount: this.perPageCount, currentPage: this.currentPage
+        perPageCount: this.perPageCount, currentPage: this.currentPage,
+        noOfColumns: this.noOfColumns
       }
     });
     dialogRef.afterClosed().subscribe(result => {
       this.name = result.name;
       this.hideNoDescription = result.hideNoDescription;
+      this.noOfColumns = result.noOfColumns;
       if (this.checkValidPage(result.currentPage, result.perPageCount)) {
         this.currentPage = result.currentPage;
         this.perPageCount = result.perPageCount;
@@ -84,7 +87,7 @@ export class GridListComponentComponent implements OnInit {
   }
 
   changeCounter(value) {
-    if (this.currentPage + value >= 1 && this.currentPage + value <= (3000 / this.perPageCount)){
+    if (this.currentPage + value >= 1 && this.currentPage + value <= (3000 / this.perPageCount)) {
       this.currentPage += value;
       this.getGistList();
     }
@@ -98,9 +101,12 @@ export class GridListComponentComponent implements OnInit {
 })
 export class FilterDialogComponent {
 
-  perPageItems: Number[] = [10, 12, 14, 16, 18, 20];
-  perPageCount: Number = this.data.perPageCount;
-  currentPage: Number = this.data.currentPage;
+  perPageItems: number[] = [10, 12, 14, 16, 18, 20];
+  perPerCardCount: number[] = [2, 3, 4, 5];
+
+  perPageCount: number = this.data.perPageCount;
+  currentPage: number = this.data.currentPage;
+  noOfColumns: number = this.data.noOfColumns;
 
   constructor(public dialogRef: MatDialogRef<FilterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
   }

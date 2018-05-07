@@ -7,7 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class GridListItemComponentComponent implements OnInit {
 
-  @Input() gistItem: GistModel;
+  @Input() gistItem: GistModel;w
 
   constructor() {
   }

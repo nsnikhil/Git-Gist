@@ -18,6 +18,14 @@
     <input matInput type="number" [(ngModel)]="data.currentPage" placeholder="Go to page no">
   </mat-form-field>
 
+  <mat-form-field>
+    <mat-select [(ngModel)]="data.noOfColumns" placeholder="No of Items Per Row">
+      <mat-option *ngFor="let item of perPerCardCount" [value]="item">
+        {{ item }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>

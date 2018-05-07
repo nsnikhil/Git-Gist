@@ -3,8 +3,15 @@
   <span class="fill-remaining-space"></span>
 
   <mat-menu #appMenu="matMenu">
-    <button mat-menu-item (click)="sortArray()">Last Updated</button>
+    <button mat-menu-item [matMenuTriggerFor]="sortBy">Sort by</button>
     <button mat-menu-item (click)="openDialog()">Filter</button>
+  </mat-menu>
+
+  <mat-menu #sortBy="matMenu">
+    <button mat-menu-item>Last Updated</button>
+    <button mat-menu-item>First Updated</button>
+    <button mat-menu-item>Name</button>
+    <button mat-menu-item>Description</button>
   </mat-menu>
 
   <button mat-icon-button [matMenuTriggerFor]="appMenu">
@@ -12,15 +19,15 @@
   </button>
 
   <a aria-label="GitHub Repository"
+     target="_blank"
      href="https://github.com/nsnikhil/Git-Gist">
     <span matRipple><img alt="github.com/nsnikhil" src="../../assets/images/GitHub-Mark-Light-32px.png"></span>
   </a>
 
-
 </mat-toolbar>
 
 
-<mat-grid-list cols="4" rowHeight="4:3">
+<mat-grid-list cols={{noOfColumns}} rowHeight="4:3">
   <mat-grid-tile
     *ngFor="let gistItem of gistList">
     <app-grid-list-item-component
@@ -36,3 +43,7 @@
   </li>
   <li *ngIf="checkSmaller()" class="page-item"><a class="page-link" href="#" (click)="changeCounter(+1)">Next</a></li>
 </ul>
+
+<p class="d-flex justify-content-center">
+  {{currentPage}} of {{ (3000/perPageCount) }}
+</p>
