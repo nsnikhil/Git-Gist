@@ -1,0 +1,22 @@
+<mat-card (click)="openGist()" class="ripplelink" md-ink-ripple >
+
+  <div class="d-flex justify-content-start">
+    <div>
+      <div class="cardImageDiv">
+        <img mat-card-image class="cardImage" src={{gistItem.owner.avatar_url}} alt={{gistItem.owner.login}}>
+      </div>
+    </div>
+    <div>
+      <mat-card-header>
+        <mat-card-title>{{gistItem.owner.login}}</mat-card-title>
+        <mat-card-subtitle>{{gistItem.updated_at}}</mat-card-subtitle>
+      </mat-card-header>
+    </div>
+  </div>
+
+  <mat-card-content>
+    <p *ngIf="gistItem.description" class="description">{{gistItem.description}}</p>
+    <p *ngIf="!gistItem.description" class="description">No Description</p>
+  </mat-card-content>
+
+</mat-card>

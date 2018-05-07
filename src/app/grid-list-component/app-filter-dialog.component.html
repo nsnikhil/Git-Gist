@@ -1,0 +1,25 @@
+<div mat-dialog-content>
+  <mat-form-field>
+    <input matInput [(ngModel)]="data.name" placeholder="Owner Name">
+  </mat-form-field>
+  <p>
+    <mat-checkbox [(ngModel)]="data.hideNoDescription">Hide gist without description</mat-checkbox>
+  </p>
+
+  <mat-form-field>
+    <mat-select [(ngModel)]="data.perPageCount" placeholder="No of Items Per Page">
+      <mat-option *ngFor="let item of perPageItems" [value]="item">
+        {{ item }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput type="number" [(ngModel)]="data.currentPage" placeholder="Go to page no">
+  </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>

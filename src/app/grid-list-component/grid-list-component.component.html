@@ -1,0 +1,30 @@
+<mat-toolbar color="primary" class="mat-elevation-z5">
+  <span>Git Gist</span>
+  <span class="fill-remaining-space"></span>
+
+  <span>
+    <button mat-button [matMenuTriggerFor]="menu">Sort By</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="sortArray()">Last Updated</button>
+      <button mat-menu-item (click)="openDialog()">Filter</button>
+    </mat-menu>
+  </span>
+</mat-toolbar>
+
+
+<mat-grid-list cols="4" rowHeight="4:3">
+  <mat-grid-tile
+    *ngFor="let gistItem of gistList">
+    <app-grid-list-item-component
+      *ngIf="filterResults(gistItem)"
+      [gistItem]="gistItem">
+    </app-grid-list-item-component>
+  </mat-grid-tile>
+</mat-grid-list>
+
+
+<ul class="pagination justify-content-center">
+  <li *ngIf="checkGreater()" class="page-item"><a class="page-link" href="#" (click)="changeCounter(-1)">Previous</a>
+  </li>
+  <li *ngIf="checkSmaller()" class="page-item"><a class="page-link" href="#" (click)="changeCounter(+1)">Next</a></li>
+</ul>

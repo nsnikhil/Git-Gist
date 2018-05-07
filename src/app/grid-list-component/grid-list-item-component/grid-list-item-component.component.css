@@ -1,0 +1,28 @@
+.cardImageDiv{
+  width: 100px;
+  height:100px;
+}
+
+.description {
+  width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardImage{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ripplelink{
+  cursor: pointer;
+}
+
+.ripplelink:hover{
+  z-index:1000;
+  box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+  -webkit-box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+  -moz-box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+}
