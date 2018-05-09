@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {NetworkApiService} from '../network/network-api.service';
+import {SortUtility} from '../utility/SortUtility';
 
 @Component({
   selector: 'app-grid-list-component',
@@ -9,13 +10,16 @@ import {NetworkApiService} from '../network/network-api.service';
 })
 export class GridListComponentComponent implements OnInit {
 
-  gistList: GistModel[];
-  perPageCount = 12;
-  currentPage = 1;
-  noOfColumns = 5;
-
-  hideNoDescription = false;
-  name: String;
+  private gistList: GistModel[];
+  private perPageCount = 20;
+  private currentPage = 1;
+  private noOfColumns = 4;
+  private hideNoDescription = false;
+  private infiniteScroll = false;
+  private name;
+  private searchEnabled = false;
+  private searchTerm;
+  private searchItems = [];
 
   constructor(public dialog: MatDialog, public networkApi: NetworkApiService) {
   }
@@ -32,14 +36,46 @@ export class GridListComponentComponent implements OnInit {
     return this.currentPage < (3000 / this.perPageCount);
   }
 
-  sortArray() {
-
+  sortArray(type) {
+    switch (type) {
+      case 1:
+        SortUtility.sortByLastUpdated(this.gistList);
+        break;
+      case 2:
+        SortUtility.sortByFirstUpdated(this.gistList);
+        break;
+      case 3:
+        SortUtility.sortByName(this.gistList);
+        break;
+      case 4:
+        SortUtility.sortByLastDescription(this.gistList);
+        break;
+    }
   }
 
+  onScroll() {
+    if (this.infiniteScroll) {
+      this.currentPage += 1;
+      this.getGistList();
+    }
+  }
+
+  changeSearch() {
+    this.searchEnabled = !this.searchEnabled;
+  }
+
+  onSearch(searchVal) {
+    this.searchItems = [];
+    for (let i = 0, size = this.gistList.length; i < size; i++) {
+      if (this.gistList[i].owner.login.includes(searchVal) || this.gistList[i].description.includes(searchVal)) {
+        this.searchItems.push(this.gistList[i]);
+      }
+    }
+  }
 
   filterResults(gist: GistModel) {
-    let nameMatch: Boolean = true;
-    let descriptionMatch: Boolean = true;
+    let nameMatch = true;
+    let descriptionMatch = true;
     if (this.name !== undefined && this.name !== '') {
       nameMatch = gist.owner.login === this.name;
     }
@@ -53,19 +89,24 @@ export class GridListComponentComponent implements OnInit {
     const dialogRef = this.dialog.open(FilterDialogComponent, {
       width: '400px',
       data: {
-        name: this.name, hideNoDescription: this.hideNoDescription,
-        perPageCount: this.perPageCount, currentPage: this.currentPage,
-        noOfColumns: this.noOfColumns
+        name: this.name,
+        hideNoDescription: this.hideNoDescription,
+        perPageCount: this.perPageCount,
+        currentPage: this.currentPage,
+        noOfColumns: this.noOfColumns,
+        infiniteScroll: this.infiniteScroll
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.name = result.name;
-      this.hideNoDescription = result.hideNoDescription;
-      this.noOfColumns = result.noOfColumns;
-      if (this.checkValidPage(result.currentPage, result.perPageCount)) {
-        this.currentPage = result.currentPage;
-        this.perPageCount = result.perPageCount;
-        this.getGistList();
+      if (result !== undefined) {
+        this.name = result.name;
+        this.hideNoDescription = result.hideNoDescription;
+        this.noOfColumns = result.noOfColumns;
+        if (this.checkValidPage(result.currentPage, result.perPageCount)) {
+          this.currentPage = result.currentPage;
+          this.perPageCount = result.perPageCount;
+          this.getGistList();
+        }
       }
     });
   }
@@ -82,7 +123,13 @@ export class GridListComponentComponent implements OnInit {
 
   getGistList() {
     this.networkApi.getData(this.currentPage, this.perPageCount).subscribe(results => {
-      this.gistList = results;
+      if (this.gistList === undefined || !this.infiniteScroll) {
+        this.gistList = results;
+      } else {
+        for (let i = 0, size = results.length; i < size; i++) {
+          this.gistList.push(results[i]);
+        }
+      }
     });
   }
 
@@ -91,6 +138,10 @@ export class GridListComponentComponent implements OnInit {
       this.currentPage += value;
       this.getGistList();
     }
+  }
+
+  showPager() {
+    return !(this.infiniteScroll || this.searchEnabled);
   }
 
 }
@@ -114,5 +165,4 @@ export class FilterDialogComponent {
   onNoClick(): void {
     this.dialogRef.close();
   }
-
 }

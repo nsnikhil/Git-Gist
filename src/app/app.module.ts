@@ -18,6 +18,8 @@ import {MatListModule} from '@angular/material/list';
 import {MatSelectModule} from '@angular/material/select';
 import {MatRippleModule} from '@angular/material';
 import {MatTabsModule} from '@angular/material/tabs';
+import {InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import {AppComponent} from './app.component';
 import {FilterDialogComponent, GridListComponentComponent} from './grid-list-component/grid-list-component.component';
@@ -25,13 +27,15 @@ import {GridListItemComponentComponent} from './grid-list-component/grid-list-it
 import {GithubAuthInterceptor} from './grid-list-component/githubauth.interceptor';
 import {CommonModule} from '@angular/common';
 import {NetworkApiService} from './network/network-api.service';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GridListComponentComponent,
     GridListItemComponentComponent,
-    FilterDialogComponent
+    FilterDialogComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +58,9 @@ import {NetworkApiService} from './network/network-api.service';
     MatListModule,
     MatSelectModule,
     MatRippleModule,
-    MatTabsModule
+    MatTabsModule,
+    InfiniteScrollModule,
+    MatSlideToggleModule
   ],
   providers: [
     NetworkApiService,

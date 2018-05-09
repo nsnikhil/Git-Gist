@@ -2,4 +2,24 @@
   flex: 1 1 auto;
 }
 
+.git{
+  padding:0px 0px 5px 10px;
+  cursor: pointer;
+}
 
+.search{
+  cursor: pointer;
+}
+
+.searchItemList{
+  display: -webkit-flex;
+  -webkit-flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
+  background: white;
+}
+
+.searchItem{
+  background: white;
+  cursor: pointer;
+}

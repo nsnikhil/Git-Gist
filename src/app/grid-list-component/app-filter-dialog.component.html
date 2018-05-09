@@ -2,8 +2,13 @@
   <mat-form-field>
     <input matInput [(ngModel)]="data.name" placeholder="Owner Name">
   </mat-form-field>
+
   <p>
     <mat-checkbox [(ngModel)]="data.hideNoDescription">Hide gist without description</mat-checkbox>
+  </p>
+
+  <p>
+    <mat-slide-toggle [disabled]=true [(ngModel)]="data.infiniteScroll">Enable Infinite Scrolling</mat-slide-toggle>
   </p>
 
   <mat-form-field>

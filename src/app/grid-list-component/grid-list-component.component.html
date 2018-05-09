@@ -2,32 +2,53 @@
   <span>Git Gist</span>
   <span class="fill-remaining-space"></span>
 
+  <div *ngIf="searchEnabled">
+    <mat-icon matRipple (click)="changeSearch()" class="search">close</mat-icon>
+    <mat-form-field>
+      <input matInput [(ngModel)]="searchTerm" (input)="onSearch($event.target.value)" type="text">
+    </mat-form-field>
+  </div>
+
+  <mat-icon *ngIf="!searchEnabled" (click)="changeSearch()" class="search" matRipple>search</mat-icon>
+
   <mat-menu #appMenu="matMenu">
     <button mat-menu-item [matMenuTriggerFor]="sortBy">Sort by</button>
     <button mat-menu-item (click)="openDialog()">Filter</button>
   </mat-menu>
 
   <mat-menu #sortBy="matMenu">
-    <button mat-menu-item>Last Updated</button>
-    <button mat-menu-item>First Updated</button>
-    <button mat-menu-item>Name</button>
-    <button mat-menu-item>Description</button>
+    <button mat-menu-item (click)="sortArray(1)">Recent Updated</button>
+    <button mat-menu-item (click)="sortArray(2)">First Updated</button>
+    <button mat-menu-item (click)="sortArray(3)">Name</button>
+    <button mat-menu-item (click)="sortArray(4)">Description</button>
   </mat-menu>
+
+  <a aria-label="GitHub Repository"
+     target="_blank"
+     class="git"
+     href="https://github.com/nsnikhil/Git-Gist">
+    <span matRipple><img width="24px" height="24px" alt="github.com/nsnikhil"
+                         src="../../assets/images/GitHub-Mark-Light-32px.png"></span>
+  </a>
 
   <button mat-icon-button [matMenuTriggerFor]="appMenu">
     <mat-icon>more_vert</mat-icon>
   </button>
 
-  <a aria-label="GitHub Repository"
-     target="_blank"
-     href="https://github.com/nsnikhil/Git-Gist">
-    <span matRipple><img alt="github.com/nsnikhil" src="../../assets/images/GitHub-Mark-Light-32px.png"></span>
-  </a>
-
 </mat-toolbar>
 
+<mat-grid-list *ngIf="searchEnabled" cols={{noOfColumns}} rowHeight="4:3"
+               infiniteScroll (scrolled)="onScroll()">
+  <mat-grid-tile
+    *ngFor="let term of searchItems">
+    <app-grid-list-item-component
+      [gistItem]="term">
+    </app-grid-list-item-component>
+  </mat-grid-tile>
+</mat-grid-list>
 
-<mat-grid-list cols={{noOfColumns}} rowHeight="4:3">
+<mat-grid-list *ngIf="!searchEnabled" cols={{noOfColumns}} rowHeight="4:3"
+               infiniteScroll (scrolled)="onScroll()">
   <mat-grid-tile
     *ngFor="let gistItem of gistList">
     <app-grid-list-item-component
@@ -38,12 +59,12 @@
 </mat-grid-list>
 
 
-<ul class="pagination justify-content-center">
+<ul *ngIf="showPager()" class="pagination justify-content-center">
   <li *ngIf="checkGreater()" class="page-item"><a class="page-link" href="#" (click)="changeCounter(-1)">Previous</a>
   </li>
   <li *ngIf="checkSmaller()" class="page-item"><a class="page-link" href="#" (click)="changeCounter(+1)">Next</a></li>
 </ul>
 
-<p class="d-flex justify-content-center">
+<p *ngIf="showPager()" class="d-flex justify-content-center">
   {{currentPage}} of {{ (3000/perPageCount) }}
 </p>
