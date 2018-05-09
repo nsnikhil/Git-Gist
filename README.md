@@ -1,7 +1,7 @@
 ## Application To view public gist using github api
 
-#### `git clone https://github.com/namicersei/gist.git`
-#### `cd gist`
+#### `git clone https://github.com/nsnikhil/Git-Gist`
+#### `cd Git-Gist`
 #### `npm install`
 #### `ng serve --open`
 
